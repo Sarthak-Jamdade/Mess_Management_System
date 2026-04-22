@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* BODY */
+
+        body {
+            background: #f4f6f9;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 260px;
+            /* same as payments */
+            height: 100vh;
+            /* full screen */
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            /* same padding */
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 40px;
+            font-size: 22px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 18px 0;
+        }
+
+        .sidebar ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: .3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #374151;
+            color: white;
+        }
+
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #6366f1;
+            cursor: pointer;
+        }
+
+        .profile-section h3 {
+            margin-top: 10px;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 260px;
+            padding: 40px;
+            width: 100%;
+        }
+
+        /* HEADER */
+
+        .main h2 {
+            margin-bottom: 30px;
+            color: #1f2937;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .card p {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* TABLE CARD */
+
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+        }
+
+        /* TABLE */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f4f6;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        /* BUTTON */
+
+        button {
+            border: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            font-weight: 500;
+        }
+
+        .approve-btn {
+            background: #16a34a;
+        }
+
+        .reject-btn {
+            background: #dc2626;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="profile-section">
+
+            <input type="file" id="profileInput" accept="image/*" hidden>
+
+            <img src="{{ url_for('static', filename='profile/admin.jpg') }}" id="profileImage" class="profile-pic">
+
+            <h3>Admin</h3>
+
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/admin_dashboard">
+                    <i class="fa fa-home"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/admin_attendance">
+                    <i class="fa fa-calendar-check"></i>
+                    Attendance
+                </a>
+            </li>
+
+            <li>
+                <a href="/admin_students">
+                    <i class="fa fa-users"></i>
+                    Students
+                </a>
+            </li>
+
+            <li>
+                <a href="/admin_payments">
+                    <i class="fa fa-money-bill"></i>
+                    Payments
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    <i class="fa fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main">
+
+        <h2>Admin Dashboard</h2>
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Students</h3>
+                <p>{{ total_students }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Active Subscriptions</h3>
+                <p style="color:#16a34a;">{{ total_active }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Pending Requests</h3>
+                <p style="color:#f59e0b;">{{ total_pending }}</p>
+            </div>
+
+        </div>
+
+
+        <!-- REQUEST TABLE -->
+
+        <div class="table-card">
+
+            <h3>Pending Subscription Requests</h3>
+
+            <table>
+
+                <tr>
+                    <th>Student</th>
+                    <th>Email</th>
+                    <th>Plan</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for req in requests %}
+
+                <tr>
+
+                    <td>{{ req.username }}</td>
+                    <td>{{ req.email }}</td>
+                    <td>{{ req.plan_name }}</td>
+                    <td>{{ req.status }}</td>
+
+                    <td>
+
+                        <a href="/approve/{{ req.subscription_id }}">
+                            <button class="approve-btn">Approve</button>
+                        </a>
+
+                        <a href="/reject/{{ req.subscription_id }}">
+                            <button class="reject-btn">Reject</button>
+                        </a>
+
+                    </td>   
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

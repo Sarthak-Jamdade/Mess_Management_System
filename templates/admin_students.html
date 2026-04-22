@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Mess Students</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#e0e7ff,#f4f6f9);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+height:100vh;
+background:#1f2937;
+color:white;
+padding:25px;
+position:fixed;
+left:0;
+top:0;
+}
+
+.sidebar ul{
+list-style:none;
+margin-top:30px;
+}
+
+.sidebar ul li{
+margin:18px 0;
+}
+
+.sidebar ul li a{
+color:#cbd5e1;
+text-decoration:none;
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px;
+border-radius:6px;
+transition:.3s;
+}
+
+.sidebar ul li a i{
+width:22px;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active{
+background:#374151;
+color:white;
+}
+
+/* PROFILE */
+
+.profile-section{
+text-align:center;
+margin-bottom:30px;
+}
+
+.profile-pic{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #6366f1;
+cursor:pointer;
+}
+
+.profile-section h3{
+margin-top:10px;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+max-width:1500px;
+margin:40px auto;
+margin-left:260px;
+background:white;
+border-radius:18px;
+box-shadow:0 8px 32px rgba(60,72,100,.15);
+padding:40px 32px;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+h2{
+color:#2d3748;
+}
+
+/* SEARCH */
+
+.search-bar{
+display:flex;
+align-items:center;
+background:#f3f4f6;
+border-radius:8px;
+padding:6px 12px;
+}
+
+.search-bar input{
+border:none;
+background:transparent;
+outline:none;
+padding:6px;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px;
+text-align:left;
+}
+
+th{
+background:#f3f4f6;
+border-bottom:2px solid #e2e8f0;
+}
+
+td{
+border-bottom:1px solid #e2e8f0;
+}
+
+tr:nth-child(even){
+background:#f9fafb;
+}
+
+tr:hover{
+background:#e0e7ff;
+}
+
+/* PLAN BADGES */
+
+.plan-badge{
+padding:4px 12px;
+border-radius:12px;
+color:white;
+font-size:14px;
+}
+
+.plan-basic{background:#a5b4fc;}
+.plan-premium{background:#4f46e5;}
+.plan-gold{background:#fbbf24;color:#2d3748;}
+
+/* EXPIRY */
+
+.expiry-soon{
+color:#ef4444;
+font-weight:bold;
+}
+
+.expiry-normal{
+color:#10b981;
+}
+
+/* ACTION BUTTONS */
+
+.actions{
+display:flex;
+gap:10px;
+}
+
+.actions button{
+border:none;
+padding:7px 14px;
+border-radius:6px;
+cursor:pointer;
+color:white;
+background:#4f46e5;
+transition:.3s;
+font-weight:500;
+}
+
+.actions button:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 10px rgba(0,0,0,.15);
+}
+
+.delete-btn{
+background:#ef4444;
+}
+
+.delete-btn:hover{
+background:#dc2626;
+}
+
+/* TOOLTIP */
+
+.tooltip{
+position:relative;
+display:inline-block;
+}
+
+.tooltip .tooltiptext{
+visibility:hidden;
+width:120px;
+background:#4f46e5;
+color:white;
+text-align:center;
+border-radius:6px;
+padding:6px;
+position:absolute;
+bottom:125%;
+left:50%;
+transform:translateX(-50%);
+opacity:0;
+transition:.3s;
+font-size:12px;
+}
+
+.tooltip:hover .tooltiptext{
+visibility:visible;
+opacity:1;
+}
+
+/* FOOTER */
+
+.footer{
+text-align:center;
+margin-top:40px;
+color:#6b7280;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-thumb{background:#a5b4fc;border-radius:8px;}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.sidebar{width:220px;}
+
+.container{
+margin-left:220px;
+}
+
+}
+
+@media(max-width:600px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+}
+
+.container{
+margin-left:0;
+}
+
+.header{
+flex-direction:column;
+gap:15px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="profile-section">
+
+<input type="file" id="profileInput" hidden>
+
+<img src="{{ url_for('static', filename='profile/admin.jpg') }}"
+id="profileImage"
+class="profile-pic">
+
+<h3>Admin</h3>
+
+</div>
+
+<ul>
+
+<li>
+<a href="/admin_dashboard">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
+</li>
+
+<li>
+<a href="/admin_attendance">
+<i class="fa-solid fa-calendar-check"></i>
+Attendance
+</a>
+</li>
+
+<li>
+<a href="/admin_students" class="active">
+<i class="fa-solid fa-users"></i>
+Students
+</a>
+</li>
+
+<li>
+<a href="/admin_payments">
+<i class="fa-solid fa-money-bill"></i>
+Payments
+</a>
+</li>
+
+<li>
+<a href="/logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+</li>
+
+</ul>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="container">
+
+<div class="header">
+
+<h2>Mess Students</h2>
+
+<div class="search-bar">
+<input type="text" placeholder="Search students..." id="search">
+<i class="fa-solid fa-search"></i>
+</div>
+
+</div>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Plan</th>
+<th>Expiry Date</th>
+<th>Actions</th>
+</tr>
+
+{% for s in students %}
+
+<tr>
+
+<td>
+
+<div class="tooltip">
+
+<i class="fa-solid fa-user"></i> {{ s.username }}
+
+<span class="tooltiptext">View Profile</span>
+
+</div>
+
+</td>
+
+<td>
+<i class="fa-solid fa-envelope"></i>
+{{ s.email }}
+</td>
+
+<td>
+
+{% if s.plan_name == 'Basic' %}
+<span class="plan-badge plan-basic">Basic</span>
+
+{% elif s.plan_name == 'Premium' %}
+<span class="plan-badge plan-premium">Premium</span>
+
+{% elif s.plan_name == 'Gold' %}
+<span class="plan-badge plan-gold">Gold</span>
+
+{% else %}
+<span class="plan-badge" style="background:#d1d5db;color:#2d3748;">
+{{ s.plan_name }}
+</span>
+{% endif %}
+
+</td>
+
+<td>
+
+{% if s.expiry_soon %}
+<span class="expiry-soon">{{ s.end_date }}</span>
+{% else %}
+<span class="expiry-normal">{{ s.end_date }}</span>
+{% endif %}
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button onclick="alert('Edit {{ s.username }}')">
+<i class="fa-solid fa-pen-to-square"></i> Edit
+</button>
+
+<button class="delete-btn"
+onclick="alert('Delete {{ s.username }}')">
+<i class="fa-solid fa-trash"></i> Delete
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<div class="footer">
+© 2024 Mess Management System
+</div>
+
+<script>
+
+/* SEARCH */
+
+document.getElementById("search").addEventListener("input",function(){
+
+const filter=this.value.toLowerCase();
+
+document.querySelectorAll("table tr:not(:first-child)")
+.forEach(row=>{
+
+const text=row.innerText.toLowerCase();
+
+row.style.display=text.includes(filter)?"":"none";
+
+});
+
+});
+
+/* PROFILE PHOTO UPLOAD */
+
+const profileImage=document.getElementById("profileImage");
+const profileInput=document.getElementById("profileInput");
+
+profileImage.onclick=()=>profileInput.click();
+
+profileInput.onchange=function(){
+
+const file=this.files[0];
+
+if(file){
+
+const formData=new FormData();
+formData.append("photo",file);
+
+fetch("/upload_profile",{
+method:"POST",
+body:formData
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status==="success"){
+profileImage.src="/static/profile/admin.jpg?"+new Date().getTime();
+}
+
+});
+
+}
+
+};
+
+</script>
+
+</body>
+</html>

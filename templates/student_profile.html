@@ -1,0 +1,387 @@
+<html>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Profile</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Segoe UI;
+        }
+
+        body {
+            display: flex;
+            background: #f1f5f9;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        /* .sidebar {
+            width: 250px;
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 40px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 18px 0;
+        }
+
+        .sidebar ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: .3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #374151;
+        } */
+
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .sidebar ul li {
+            margin: 18px 0;
+        }
+
+        .sidebar ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: .3s;
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: #374151;
+            color: white;
+        }
+
+        .sidebar ul li a i {
+            width: 22px;
+        }
+
+        /* PROFILE */
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #6366f1;
+            cursor: pointer;
+        }
+
+        #profile-pic_Sidebar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #6366f1;
+            cursor: pointer;
+        }
+
+        .profile-section h3 {
+            margin-top: 10px;
+        }
+
+        /* MAIN CONTENT */
+
+        .main {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .ProfileHeading {
+            text-align: center;
+            font-size: 34px;
+            /* color: #1f2937; */
+            background: linear-gradient(#4f46e5, #cbd5e1);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            text-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+            font-weight: bold;
+
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        /* PROFILE IMAGE */
+
+        .profile-pic {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #6366f1;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* INPUT */
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        /* BUTTON */
+
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: .3s;
+        }
+
+        button:hover {
+            background: #4f46e5;
+        }
+
+        /* MOBILE RESPONSIVE */
+
+        @media(max-width:800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="profile-section">
+            <!-- When I change the profile picture then this photo should also change -->
+
+            <!-- <img src="{{ url_for('static', filename='profile/admin.jpg') }}" class="profile-pic" id="profile-pic_Sidebar"> -->
+            <img src="/static/profile/{{ session['username'] }}.jpg" onerror="this.src='/static/profile/default.jpg'"
+                class="profile-pic" id="profile-pic_Sidebar">
+            <h3>Student</h3>
+
+        </div>
+
+        <ul>
+            <li><a href="/student_profile"><i class="fa fa-user"></i>Profile</a></li>
+
+            <li><a href="/student_dashboard"><i class="fa fa-home"></i>Dashboard</a></li>
+
+            <li><a href="/my_subscription"><i class="fa fa-list"></i>My Subscription</a></li>
+
+            <li><a href="/student_payment"><i class="fa fa-money-bill"></i>Payment</a></li>
+
+            <li><a href="#"><i class="fa fa-calendar"></i>Attendance</a></li>
+
+            <li><a href="/logout"><i class="fa fa-sign-out-alt"></i>Logout</a></li>
+        </ul>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="card">
+
+            <h2 class="ProfileHeading">Profile</h2>
+
+            <br>
+
+            <input type="file" id="profileInput" hidden>
+
+            <img src="/static/profile/{{ session['username'] }}.jpg" onerror="this.src='/static/profile/default.jpg'"
+                id="profileImage" class="profile-pic">
+
+            <br><br>
+
+            <form method="POST">
+
+                <label>Name</label>
+
+                <input type="text" name="name" value="{{ profile.name if profile else '' }}" readonly>
+
+
+                <label>Father Name</label>
+
+                <input type="text" name="father_name" value="{{ profile.father_name if profile else '' }}" readonly>
+
+
+                <label>Student Phone</label>
+
+                <input type="text" name="student_phone" value="{{ profile.student_phone if profile else '' }}" readonly>
+
+
+                <label>Father Phone</label>
+
+                <input type="text" name="father_phone" value="{{ profile.father_phone if profile else '' }}" readonly>
+
+
+                <label>Town Address</label>
+
+                <input type="text" name="town" value="{{ profile.town if profile else '' }}" readonly>
+
+
+                <label>Email</label>
+
+                <input type="text" value="{{ email }}" readonly>
+
+
+                <label>Current Plan</label>
+
+                <input type="text" value="{{ plan.plan_name if plan else 'No Active Plan' }}" readonly>
+
+
+                <button type="button" onclick="enableEdit()" id="editBtn">
+                    Edit Profile
+                </button>
+
+                <button type="submit" id="saveBtn" style="display:none;">
+                    Save Profile
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* ENABLE EDIT */
+
+        function enableEdit() {
+
+            const inputs = document.querySelectorAll("input[name]");
+
+            inputs.forEach(i => i.removeAttribute("readonly"));
+
+            document.getElementById("editBtn").style.display = "none";
+            document.getElementById("saveBtn").style.display = "block";
+
+        }
+
+
+        /* PROFILE PHOTO */
+
+        const profileImage = document.getElementById("profileImage");
+        const profileInput = document.getElementById("profileInput");
+
+        profileImage.onclick = () => profileInput.click();
+
+        profileInput.onchange = function () {
+
+            const file = this.files[0];
+
+            if (file) {
+
+                const formData = new FormData();
+                formData.append("photo", file);
+
+                fetch("/upload_profile", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(data => {
+
+                        if (data.status === "success") {
+
+                            profileImage.src = "/static/profile/" + data.filename + "?" + new Date().getTime();
+
+                        }
+
+                    });
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

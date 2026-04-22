@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* BODY */
+        body {
+            display: flex;
+            background: #f4f6f9;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        /* PROFILE */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #profile-pic_Sidebar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #6366f1;
+            cursor: pointer;
+        }
+
+        .profile-section h3 {
+            margin-top: 10px;
+        }
+
+        /* SIDEBAR MENU */
+        .sidebar ul {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .sidebar ul li {
+            margin: 18px 0;
+        }
+
+        .sidebar ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: #374151;
+            color: white;
+        }
+
+        .sidebar ul li a i {
+            width: 22px;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            /* ✅ FIXED */
+            width: calc(100% - 260px);
+            padding: 40px;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h2 {
+            font-size: 26px;
+            color: #111827;
+        }
+
+        .profile {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* CARDS GRID */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* TEXT */
+        .card h3 {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 26px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        /* ACCENT COLORS */
+        .card:nth-child(1) {
+            border-left: 5px solid #6366f1;
+        }
+
+        .card:nth-child(2) {
+            border-left: 5px solid #10b981;
+        }
+
+        .card:nth-child(3) {
+            border-left: 5px solid #f59e0b;
+        }
+
+        .card:nth-child(4) {
+            border-left: 5px solid #ef4444;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
+            }
+
+            #profile-pic_Sidebar {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="profile-section">
+            <!-- When I change the profile picture then this photo should also change -->
+
+            <!-- <img src="{{ url_for('static', filename='profile/admin.jpg') }}" class="profile-pic" id="profile-pic_Sidebar"> -->
+            <img src="/static/profile/{{ session['username'] }}.jpg" onerror="this.src='/static/profile/default.jpg'"
+                class="profile-pic" id="profile-pic_Sidebar">
+            <h3>{{ username }}</h3>
+
+        </div>
+
+        <ul>
+            <li><a href="/student_dashboard"><i class="fa fa-home"></i>Dashboard</a></li>
+
+            <li><a href="/student_profile"><i class="fa fa-user"></i>Profile</a></li>
+
+            <li><a href="/my_subscription"><i class="fa fa-list"></i>My Subscription</a></li>
+
+            <li><a href="/student_payment"><i class="fa fa-money-bill"></i>Payment</a></li>
+
+            <li><a href="#"><i class="fa fa-calendar"></i>Attendance</a></li>
+
+            <li><a href="/logout"><i class="fa fa-sign-out-alt"></i>Logout</a></li>
+        </ul>
+
+    </div>
+
+    <div class="main">
+
+        <div class="topbar">
+            <h2>Welcome, {{ username }}</h2>
+            <div class="profile">
+                Student
+            </div>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Active Plan</h3>
+                <p>{{ plan_name }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Days Remaining</h3>
+                <p>{{ days_remaining }}</p>
+            </div>
+
+            <div class="card">
+                <h3>{{ total_attendance }}%</h3>
+                <p>{{ meals_taken }} / {{ total_meals }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Paid Amount</h3>
+                <p>₹{{ pending_payment }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
